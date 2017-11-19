@@ -1,8 +1,7 @@
 package com.itsoha.web.servlet;
 
 import com.itsoha.domain.User;
-import com.itsoha.service.RegisterService;
-import com.itsoha.utils.MailUtils;
+import com.itsoha.service.UserService;
 import com.itsoha.utils.MyUtils;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.ConvertUtils;
@@ -11,8 +10,6 @@ import org.apache.commons.beanutils.Converter;
 import javax.mail.MessagingException;
 import javax.servlet.annotation.WebServlet;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -27,11 +24,11 @@ public class RegisterServlet extends javax.servlet.http.HttpServlet {
     }
 
     protected void doGet(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, IOException {
-            User user = new User();
+        User user = new User();
         try {
             //类型转换（String ---> Date）
             ConvertUtils.register(new Converter() {
-                @Override
+
                 public Object convert(Class aClass, Object o) {
                     SimpleDateFormat format = (SimpleDateFormat) SimpleDateFormat.getDateInstance();
                     format.applyPattern("yyyy-MM-dd");
@@ -56,8 +53,8 @@ public class RegisterServlet extends javax.servlet.http.HttpServlet {
         user.setCode(activeCode);
 
         //将user传递给service
-        RegisterService registerService = new RegisterService();
-        boolean register = registerService.register(user);
+        UserService userService = new UserService();
+        boolean register = userService.register(user);
         if (register) {
             //发送邮箱激活验证
             String msg = "请点击以下内容激活您的账号:<a href=http://localhost:8080/Shop/active?activeCode="+activeCode+" target='_BLANK' >http://localhost:8080/Shop/active?activeCode="+activeCode+"<a/>";

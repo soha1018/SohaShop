@@ -17,6 +17,7 @@ public class ShopFilter implements Filter {
 
         request.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=UTF-8");
+        response.setContentType("application/json");
         chain.doFilter(req, resp);
     }
 

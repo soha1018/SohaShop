@@ -5,7 +5,7 @@ import com.itsoha.domain.User;
 
 import java.sql.SQLException;
 
-public class RegisterService {
+public class UserService {
     /**
      * 注册
      * @param user 注册的信息
@@ -33,5 +33,21 @@ public class RegisterService {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * 检查用户名是否存在
+     * @param username 用户名
+     * @return 结果
+     */
+    public boolean checkUserName(String username) {
+        UserDao userDao = new UserDao();
+        Long aLong = 0L;
+        try {
+            aLong = userDao.checkUserName(username);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return aLong>0;
     }
 }

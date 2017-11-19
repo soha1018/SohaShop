@@ -30,4 +30,14 @@ public class UserDao {
         String sql = "update user set state=? where code=?";
         queryRunner.update(sql,1,activeCode);
     }
+
+    /**
+     * 检查用户名是否存在
+     * @param username 用户名
+     */
+    public Long checkUserName(String username) throws SQLException {
+        QueryRunner queryRunner = new QueryRunner(DataSourceUtils.getDataSource());
+        String sql="select count(*) from user where username=?";
+        return (Long) queryRunner.query(sql, new ScalarHandler(), username);
+    }
 }

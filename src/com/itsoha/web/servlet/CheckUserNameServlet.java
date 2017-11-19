@@ -9,19 +9,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(name = "ActiveUserServlet",urlPatterns = {"/active"})
-public class ActiveUserServlet extends HttpServlet {
+@WebServlet(name = "CheckUserNameServlet",urlPatterns = {"/checkUserName"})
+public class CheckUserNameServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doGet(request,response);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String activeCode = request.getParameter("activeCode");
-        System.out.println(activeCode);
+        String username = request.getParameter("username");
         UserService userService = new UserService();
-        //激活账号
-        userService.activeCode(activeCode);
+        boolean checkUserName = userService.checkUserName(username);
 
-        response.sendRedirect(request.getContextPath()+"/login.jsp");
+        response.getWriter().write("{\"isName\":" + checkUserName + "}");
     }
 }
