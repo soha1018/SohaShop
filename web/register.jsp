@@ -95,11 +95,11 @@
                 },
                 "password": {
                     required: true,
-                    rangelength: [6, 10]
+                    rangelength: [6, 12]
                 },
                 "repassword": {
                     required: true,
-                    rangelength: [6, 10],
+                    rangelength: [6, 12],
                     equalTo: "#password"
                 },
                 "email": {

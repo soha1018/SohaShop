@@ -2,6 +2,7 @@ package com.itsoha.web.servlet;
 
 import com.itsoha.domain.User;
 import com.itsoha.service.UserService;
+import com.itsoha.utils.MD5Utils;
 import com.itsoha.utils.MyUtils;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.ConvertUtils;
@@ -48,6 +49,8 @@ public class RegisterServlet extends javax.servlet.http.HttpServlet {
         }
         user.setUid(MyUtils.getUUID());
         user.setTelephone(null);
+        String password = user.getPassword();
+        user.setPassword(MD5Utils.md5(password));
         user.setState(0);
         String activeCode = MyUtils.getUUID();
         user.setCode(activeCode);

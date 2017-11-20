@@ -3,6 +3,7 @@ package com.itsoha.dao;
 import com.itsoha.domain.User;
 import com.itsoha.utils.DataSourceUtils;
 import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
 
 import java.sql.SQLException;
@@ -39,5 +40,14 @@ public class UserDao {
         QueryRunner queryRunner = new QueryRunner(DataSourceUtils.getDataSource());
         String sql="select count(*) from user where username=?";
         return (Long) queryRunner.query(sql, new ScalarHandler(), username);
+    }
+
+    /**
+     * 登陆
+     */
+    public User login(String username, String password) throws SQLException {
+        QueryRunner queryRunner = new QueryRunner(DataSourceUtils.getDataSource());
+        String sql = "select * from user where username=? and password=?";
+        return queryRunner.query(sql, new BeanHandler<User>(User.class), username, password);
     }
 }
