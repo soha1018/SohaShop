@@ -11,8 +11,7 @@ public class MD5Utils {
 	public static String md5(String plainText) {
 		byte[] secretBytes = null;
 		try {
-			secretBytes = MessageDigest.getInstance("md5").digest(
-					plainText.getBytes());
+			secretBytes = MessageDigest.getInstance("md5").digest(plainText.getBytes());
 		} catch (NoSuchAlgorithmException e) {
 			throw new RuntimeException("没有md5这个算法！");
 		}

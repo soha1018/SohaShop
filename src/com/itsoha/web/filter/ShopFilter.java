@@ -28,7 +28,7 @@ public class ShopFilter implements Filter {
 
         HttpSession session = request.getSession();
         request.setCharacterEncoding("UTF-8");
-        response.setContentType("text/html;charset=utf-8");
+        response.setContentType("application/json; charset=utf-8");
 
         //自动登陆
         Cookie[] cookies = request.getCookies();

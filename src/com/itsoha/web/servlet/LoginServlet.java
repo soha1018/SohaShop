@@ -1,12 +1,15 @@
 package com.itsoha.web.servlet;
 
+import com.google.gson.Gson;
 import com.itsoha.domain.User;
 import com.itsoha.service.UserService;
 import com.itsoha.utils.MD5Utils;
+import com.itsoha.utils.MyUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
+import java.io.BufferedReader;
 import java.io.IOException;
 
 @WebServlet(name = "LoginServlet", urlPatterns = {"/login"})
@@ -20,6 +23,15 @@ public class LoginServlet extends HttpServlet {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
 
+        //判断移动端
+        boolean device = MyUtils.isMobileDevice(request);
+        if (device) {
+            BufferedReader reader = request.getReader();
+            Gson gson = new Gson();
+            User user = gson.fromJson(reader.readLine(), User.class);
+            username = user.getUsername();
+            password = user.getPassword();
+        }
         //进行MD5加密
         password = MD5Utils.md5(password);
 
@@ -32,8 +44,13 @@ public class LoginServlet extends HttpServlet {
             //记住账号
             saveLogin(request,response,username);
             //登陆成功
-            session.setAttribute("user", user);
-            response.sendRedirect(request.getContextPath() + "/index.jsp");
+            if (device) {
+                response.getWriter().write("{\"success\":\"ok\"}");
+            } else {
+                session.setAttribute("user", user);
+                response.sendRedirect(request.getContextPath() + "/index.jsp");
+            }
+
         } else {
             request.setAttribute("loginInfo", "error");
             request.getRequestDispatcher("/login.jsp").forward(request, response);
