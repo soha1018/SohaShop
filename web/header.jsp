@@ -43,11 +43,10 @@
             </div>
 
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav">
-                    <li class="active"><a href="product_list.htm">手机数码<span class="sr-only">(current)</span></a></li>
-                    <li><a href="#">电脑办公</a></li>
-                    <li><a href="#">电脑办公</a></li>
-                    <li><a href="#">电脑办公</a></li>
+                <ul class="nav navbar-nav" id="categoryList">
+                    <%--<li class="active"><a href="product_list.htm">手机数码<span class="sr-only">(current)</span></a></li>--%>
+                    <%--<li><a href="#">电脑办公</a></li>--%>
+
                 </ul>
                 <form class="navbar-form navbar-right" role="search">
                     <div class="form-group">
@@ -57,5 +56,21 @@
                 </form>
             </div>
         </div>
+        <script type="text/javascript">
+            $(function () {
+                var content = "";
+                $.post(
+                    "${pageContext.request.contextPath}/categoryList",
+                    function (data) {
+                        for (var i=0;i<data.length;i++) {
+                            content+="<li><a href='${pageContext.request.contextPath}/productByCid?cid="+data[i].cid+"&page=1'>"+data[i].cname+"</a></li>"
+                        }
+                        $("#categoryList").html(content);
+                    },
+                    "json"
+                );
+
+            });
+        </script>
     </nav>
 </div>

@@ -23,6 +23,12 @@ body {
 }
 </style>
 </head>
+<script type="text/javascript">
+	function addCart() {
+        var buyNum = $("#quantity").val();
+        location.href = "${pageContext.request.contextPath}/addProductToCart?currentPage=${currentPage}&pid=${productInfo.pid}&buyNum="+buyNum;
+    }
+</script>
 
 <body>
 	<!-- 引入header.jsp -->
@@ -40,21 +46,21 @@ body {
 				<div class="col-md-6">
 					<img style="opacity: 1; width: 400px; height: 350px;" title=""
 						class="medium"
-						src="image/r___________renleipic_01/bigPic5f3622b8-028a-4e62-a77f-f41a16d715ed.jpg">
+						src="${pageContext.request.contextPath}/${productInfo.pimage}">
 				</div>
 
 				<div class="col-md-6">
 					<div>
-						<strong>大冬瓜</strong>
+						<strong>${productInfo.pname}</strong>
 					</div>
 					<div
 						style="border-bottom: 1px dotted #dddddd; width: 350px; margin: 10px 0 10px 0;">
-						<div>编号：751</div>
+						<div>编号：${productInfo.pid}</div>
 					</div>
 
 					<div style="margin: 10px 0 10px 0;">
-						亿家价: <strong style="color: #ef0101;">￥：4.78元/份</strong> 参 考 价：
-						<del>￥6.00元/份</del>
+						现价: <strong style="color: #ef0101;">￥：${productInfo.shop_price}元/份</strong> 参 考 价：
+						<del>￥${productInfo.market_price}元/份</del>
 					</div>
 
 					<div style="margin: 10px 0 10px 0;">
@@ -73,11 +79,13 @@ body {
 						</div>
 
 						<div style="margin: 20px 0 10px 0;; text-align: center;">
-							<a href="cart.htm"> <input
-								style="background: url('./images/product.gif') no-repeat scroll 0 -600px rgba(0, 0, 0, 0); height: 36px; width: 127px;"
-								value="加入购物车" type="button">
+							<a href="javascript:void(0)" onclick="addCart()">
+								<input style="background: url('./images/product.gif') no-repeat scroll 0 -600px rgba(0, 0, 0, 0); height: 36px; width: 127px;" value="加入购物车" type="button">
 							</a> &nbsp;收藏商品
 						</div>
+					</div>
+					<div>
+						<a href="${pageContext.request.contextPath}/productByCid?cid=${cid}&page=${currentPage}">返回商品列表</a>
 					</div>
 				</div>
 			</div>
@@ -90,7 +98,7 @@ body {
 
 				<div>
 					<img
-						src="image/r___________renleipic_01/bigPic139f030b-d68b-41dd-be6d-b94cc568d3c5.jpg">
+						src="${pageContext.request.contextPath}/${productInfo.pimage}">
 				</div>
 
 				<div
