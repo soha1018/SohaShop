@@ -17,7 +17,6 @@ public class ActiveUserServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String activeCode = request.getParameter("activeCode");
-        System.out.println(activeCode);
         UserService userService = new UserService();
         //激活账号
         userService.activeCode(activeCode);

@@ -50,4 +50,18 @@ public class UserService {
         }
         return aLong>0;
     }
+
+    /**
+     * 登陆
+     */
+    public User login(String username, String password) {
+        UserDao userDao = new UserDao();
+        User user = null;
+        try {
+            user = userDao.login(username, password);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return user;
+    }
 }
