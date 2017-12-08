@@ -26,7 +26,7 @@ public class CheckImgServlet extends HttpServlet {
     public void init() throws ServletException {
         // 初始化阶段，读取new_words.txt
         // web工程中读取 文件，必须使用绝对磁盘路径
-        InputStream inputStream = getServletContext().getResourceAsStream("WEB-INF/new_words.txt");
+        InputStream inputStream = getServletContext().getResourceAsStream("/WEB-INF/new_words.txt");
         InputStreamReader streamReader = new InputStreamReader(inputStream);
         try {
             BufferedReader reader = new BufferedReader(streamReader);

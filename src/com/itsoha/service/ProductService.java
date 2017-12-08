@@ -2,8 +2,10 @@ package com.itsoha.service;
 
 import com.itsoha.dao.ProductDao;
 import com.itsoha.domain.Category;
+import com.itsoha.domain.Order;
 import com.itsoha.domain.PagerBean;
 import com.itsoha.domain.Product;
+import com.itsoha.utils.DataSourceUtils;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -65,10 +67,10 @@ public class ProductService {
             productCount = Math.toIntExact(dao.findCategoryProductCount(cid));
             pagerBean.setTotalCount(productCount);
             //总页数
-            int  pagerCount = (int) Math.ceil(1.0 * productCount / currentCount);
+            int pagerCount = (int) Math.ceil(1.0 * productCount / currentCount);
             pagerBean.setTotalPager(pagerCount);
             //分页从哪里开始
-            int index = (currentPager-1) * currentCount;
+            int index = (currentPager - 1) * currentCount;
             List<Product> list = dao.findPagerProductList(cid, index, currentCount);
             pagerBean.setList(list);
         } catch (SQLException e) {
@@ -89,5 +91,46 @@ public class ProductService {
         }
 
         return null;
+    }
+
+    /**
+     * 提交订单
+     *
+     * @param order 订单
+     */
+    public void submitOrder(Order order) {
+        ProductDao dao = new ProductDao();
+        //开启事物
+        try {
+            DataSourceUtils.startTransaction();
+            dao.addOrder(order);
+            dao.addOrderItem(order);
+        } catch (SQLException e) {
+            try {
+                DataSourceUtils.rollback();
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
+            e.printStackTrace();
+        }finally {
+            try {
+                DataSourceUtils.commitAndRelease();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+    /**
+     * 更新用户订单信息
+     */
+    public void updateOrder(Order order) {
+        ProductDao dao = new ProductDao();
+        try {
+            dao.updateOrder(order);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -1,6 +1,8 @@
 package com.itsoha.utils;
 
 import javax.servlet.http.HttpServletRequest;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -44,5 +46,9 @@ public class MyUtils {
             Matcher matcherTable = tablePat.matcher(userAgent);
             return matcherPhone.find() || matcherTable.find();
         }
-
+    public static String getTime() {
+        SimpleDateFormat dateFormat = (SimpleDateFormat) SimpleDateFormat.getDateInstance();
+        dateFormat.applyPattern("yyyy-MM-dd HH:mm:ss");
+        return dateFormat.format(new Date());
+    }
 }
