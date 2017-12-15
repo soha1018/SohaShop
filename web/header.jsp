@@ -21,7 +21,7 @@
                 <li><a href="${pageContext.request.contextPath}/quitLogin" style="text-decoration:none" onclick="quitLogin()">退出</a></li>
             </c:if>
             <li><a href="cart.jsp">购物车</a></li>
-            <li><a href="order_list.jsp">我的订单</a></li>
+            <li><a href="${pageContext.request.contextPath}/myOrders">我的订单</a></li>
         </ol>
     </div>
 </div>

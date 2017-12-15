@@ -24,16 +24,18 @@ public class ConfirmOrderServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //更新收货人信息
         Map<String, String[]> map = request.getParameterMap();
+        ProductService service = new ProductService();
+        Order order = new Order();
         try {
-            Order order = new Order();
             BeanUtils.populate(order, map);
-            System.out.println(order);
-            ProductService service = new ProductService();
             service.updateOrder(order);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
+        //支付状态修改
+        service.updateStatus(order.getOid());
         //在线支付
+        request.getRequestDispatcher("/success.jsp").forward(request, response);
     }
 }

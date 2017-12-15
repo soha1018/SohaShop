@@ -9,6 +9,7 @@ import com.itsoha.utils.DataSourceUtils;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 public class ProductService {
     /**
@@ -132,5 +133,108 @@ public class ProductService {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * 根据用户的Id获取订单
+     * @param uid 用户的Id
+     */
+    public List<Order> findAllOrdersByUid(String uid) {
+        ProductDao dao = new ProductDao();
+        try {
+            return dao.findAllOrdersByUid(uid);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 根据订单Id获取订单详情
+     */
+    public List<Map<String, Object>> findAllOrderItemByOid(String oid) {
+        ProductDao dao = new ProductDao();
+        try {
+            return dao.findAllOrderItemByOid(oid);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 更改支付状态
+     */
+    public void updateStatus(String oid) {
+        ProductDao dao = new ProductDao();
+        try {
+            dao.updateStatus(oid);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 查询所有商品信息
+     */
+    public List<Product> findAllProduct() {
+        ProductDao dao = new ProductDao();
+        try {
+            return dao.findAllProduct();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 根据Id查询商品信息
+     */
+    public Product findProductByid(String pid) {
+        ProductDao dao = new ProductDao();
+        try {
+            return dao.findProductById(pid);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 根据Id修改商品信息
+     * @param pid
+     */
+    public void updateProductByPid(Product pid) {
+        ProductDao dao = new ProductDao();
+        try {
+            dao.updateProductById(pid);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 根据Id删除商品
+     */
+    public void delProductById(String pid) {
+        ProductDao dao = new ProductDao();
+        try {
+            dao.delProductById(pid);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 查询所有订单
+     */
+    public List<Order> findAllOrders() {
+        ProductDao dao = new ProductDao();
+        try {
+            return dao.findAllOrder();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

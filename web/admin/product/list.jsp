@@ -1,4 +1,5 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <HTML>
 <HEAD>
 <meta http-equiv="Content-Language" content="zh-cn">
@@ -49,30 +50,36 @@
 								<td width="7%" align="center">编辑</td>
 								<td width="7%" align="center">删除</td>
 							</tr>
-							<tr onmouseover="this.style.backgroundColor = 'white'"
-								onmouseout="this.style.backgroundColor = '#F5FAFE';">
-								<td style="CURSOR: hand; HEIGHT: 22px" align="center"
-									width="18%">1</td>
-								<td style="CURSOR: hand; HEIGHT: 22px" align="center"
-									width="17%"><img width="40" height="45" src=""></td>
-								<td style="CURSOR: hand; HEIGHT: 22px" align="center"
-									width="17%">电视机</td>
-								<td style="CURSOR: hand; HEIGHT: 22px" align="center"
-									width="17%">3000</td>
-								<td style="CURSOR: hand; HEIGHT: 22px" align="center"
-									width="17%">是</td>
-								<td align="center" style="HEIGHT: 22px"><a
-									href="${ pageContext.request.contextPath }/admin/product/edit.jsp">
-										<img
-										src="${pageContext.request.contextPath}/images/i_edit.gif"
-										border="0" style="CURSOR: hand">
-								</a></td>
+                            <c:if test="${adminProductList==null}">
+                                <h2>没有任何商品哦</h2>
+                            </c:if>
+                            <c:if test="${adminProductList!=null}">
+                                <c:forEach items="${adminProductList}" var="pro">
+                                    <tr onmouseover="this.style.backgroundColor = 'white'"
+                                        onmouseout="this.style.backgroundColor = '#F5FAFE';">
+                                        <td style="CURSOR: hand; HEIGHT: 22px" align="center"
+                                            width="18%">${pro.pid}</td>
+                                        <td style="CURSOR: hand; HEIGHT: 22px" align="center"
+                                            width="17%"><img width="40" height="45" src="${pageContext.request.contextPath}/${pro.pimage}"></td>
+                                        <td style="CURSOR: hand; HEIGHT: 22px" align="center"
+                                            width="17%">${pro.pname}</td>
+                                        <td style="CURSOR: hand; HEIGHT: 22px" align="center"
+                                            width="17%">${pro.shop_price}</td>
+                                        <td style="CURSOR: hand; HEIGHT: 22px" align="center"
+                                            width="17%">${pro.is_hot==1?"是":"否"}</td>
+                                        <td align="center" style="HEIGHT: 22px">
+											<a href="${ pageContext.request.contextPath }/adminEdit?pid=${pro.pid}">
+                                            <img src="${pageContext.request.contextPath}/images/i_edit.gif" border="0" style="CURSOR: hand">
+											</a>
+										</td>
 
-								<td align="center" style="HEIGHT: 22px"><a href="#"> <img
-										src="${pageContext.request.contextPath}/images/i_del.gif"
-										width="16" height="16" border="0" style="CURSOR: hand">
-								</a></td>
-							</tr>
+                                        <td align="center" style="HEIGHT: 22px"><a href="${ pageContext.request.contextPath }/adminDel?pid=${pro.pid}"> <img
+                                                src="${pageContext.request.contextPath}/images/i_del.gif"
+                                                width="16" height="16" border="0" style="CURSOR: hand">
+                                        </a></td>
+                                    </tr>
+                                </c:forEach>
+                            </c:if>
 						</table>
 					</td>
 				</tr>

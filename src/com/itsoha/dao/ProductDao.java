@@ -8,11 +8,13 @@ import com.itsoha.utils.DataSourceUtils;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
+import org.apache.commons.dbutils.handlers.MapListHandler;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 public class ProductDao {
 
@@ -100,5 +102,82 @@ public class ProductDao {
         QueryRunner runner = new QueryRunner(DataSourceUtils.getDataSource());
         String sql = "update orders set name=?,address=?,telephone=? where oid=?";
         runner.update(sql, order.getName(),order.getAddress(),order.getTelephone(),order.getOid());
+    }
+
+    /**
+     * 根据用户的Id获取订单
+     * @param uid 用户的Id
+     */
+    public List<Order> findAllOrdersByUid(String uid) throws SQLException {
+        QueryRunner runner = new QueryRunner(DataSourceUtils.getDataSource());
+        String sql = "select * from orders where uid=?";
+        return runner.query(sql, new BeanListHandler<Order>(Order.class),uid);
+    }
+
+    /**
+     * 根据订单Id获取订单详情
+     */
+    public List<Map<String, Object>> findAllOrderItemByOid(String oid) throws SQLException {
+        QueryRunner runner = new QueryRunner(DataSourceUtils.getDataSource());
+        String sql = "select i.count,i.subtotal,p.pimage,p.pname,p.shop_price from orderItem i,product p where i.pid=p.pid and i.oid=?";
+        return runner.query(sql, new MapListHandler(), oid);
+
+    }
+
+    /**
+     * 更改支付状态
+     * @param oid
+     */
+    public void updateStatus(String oid) throws SQLException {
+        QueryRunner runner = new QueryRunner(DataSourceUtils.getDataSource());
+        String sql = "update orders set state=1 where oid=?";
+        runner.update(sql,oid);
+    }
+
+    /**
+     * 查询所有商品信息
+     */
+    public List<Product> findAllProduct() throws SQLException {
+        QueryRunner runner = new QueryRunner(DataSourceUtils.getDataSource());
+        String sql = "select * from product";
+        return runner.query(sql, new BeanListHandler<Product>(Product.class));
+    }
+
+    /**
+     * 根据Id查询商品信息
+     */
+    public Product findProductById(String pid) throws SQLException {
+        QueryRunner runner = new QueryRunner(DataSourceUtils.getDataSource());
+        String sql = "select * from product where pid=?";
+        return runner.query(sql, new BeanHandler<Product>(Product.class), pid);
+    }
+
+    /**
+     * 根据Id修改商品信息
+     */
+    public void updateProductById(Product product) throws SQLException {
+        QueryRunner runner = new QueryRunner(DataSourceUtils.getDataSource());
+        String sql = "update product set pname=?,market_price=?,shop_price=?,pimage=?,pdate=?,is_hot=?,pdesc=?,pflag=?,cid=? where pid=? ";
+        runner.update(sql, product.getPname(),product.getMarket_price(),
+                product.getShop_price(),product.getPimage(),product.getPdate(),product.getIs_hot(),
+                product.getPdesc(),product.getPflag(),product.getCid(),product.getPid());
+    }
+
+    /**
+     * 根据Id删除商品
+     */
+    public void delProductById(String pid) throws SQLException {
+        QueryRunner runner = new QueryRunner(DataSourceUtils.getDataSource());
+        String sql = "delete from product where pid=?";
+        runner.update(sql, pid);
+    }
+
+    /**
+     * 查询所有订单
+     */
+    public List<Order> findAllOrder() throws SQLException {
+        QueryRunner runner = new QueryRunner(DataSourceUtils.getDataSource());
+        String sql = "select * from orders";
+        return runner.query(sql, new BeanListHandler<Order>(Order.class));
     }
 }
